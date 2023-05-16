@@ -107,7 +107,7 @@ html[data-theme='dark'] {
 .subtext {
   display: flex;
   align-items: stretch;
-  gap: 10px;
+  gap: 5px;
   padding: 0 20px;
   font-size: 1.3rem;
   color: red;
@@ -124,12 +124,13 @@ html[data-theme='dark'] {
 }
 
 .subtext [data-status] {
+  font-size: 0.7rem;
+  line-height: 1.3rem;
   width: 100%;
   text-align: center;
 }
 
 .subtext [data-steps] {
-  min-width: 124px;
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
@@ -220,6 +221,11 @@ html[data-theme='dark'] {
     font-size: 1rem;
   }
 
+  .subtext [data-status] {
+    font-size: 0.5rem;
+    line-height: 1rem;
+  }
+
   .board {
     grid-template-columns: repeat(var(--size), 30px);
     grid-template-rows: repeat(var(--size), 30px);
@@ -245,8 +251,9 @@ html[data-theme='dark'] {
     font-size: 0.8rem;
   }
 
-  .subtext [data-steps] {
-    min-width: 100px;
+  .subtext [data-status] {
+    font-size: 0.45rem;
+    line-height: 0.8rem;
   }
 
   .board {
@@ -296,10 +303,12 @@ html[data-theme='dark'] {
   .subtext {
     font-size: 0.7rem;
     padding: 0 7px;
+    gap: 2px;
   }
 
-  .subtext [data-steps] {
-    min-width: 60px;
+  .subtext [data-status] {
+    font-size: 0.31rem;
+    line-height: 0.8rem;
   }
 
   .subtext [data-status],
