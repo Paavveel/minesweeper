@@ -50,8 +50,16 @@ html[data-theme='dark'] {
   background-color: inherit;
 }
 
-.controls__select[name='theme'] {
+.controls__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
   margin-left: auto;
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  fill: var(--special);
 }
 
 .header,
@@ -250,6 +258,15 @@ html[data-theme='dark'] {
 @media (max-width: 730px) {
   .body {
     font-size: 0.8rem;
+  }
+
+  .controls {
+    gap: 5px;
+  }
+
+  .controls__button svg {
+    width: 20px;
+    height: 20px;
   }
 
   .counter,
