@@ -43,9 +43,16 @@ html[data-theme='dark'] {
   margin: 20px 0;
 }
 
-.controls__row {
+.controls__settings {
   display: flex;
   gap: 15px;
+}
+
+.controls__stat {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+  text-align: center;
 }
 
 .controls__select {
@@ -68,6 +75,30 @@ html[data-theme='dark'] {
   fill: var(--special);
 }
 
+.steps,
+.flags-mines,
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.steps__title,
+.flags-mines__title,
+.timer__title {
+  color: var(--text-color);
+}
+
+.steps__content,
+.flags-mines__content,
+.timer__content {
+  color: var(--special);
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
 .header,
 .board {
   background-color: var(--board-bg-primary-color);
@@ -75,7 +106,7 @@ html[data-theme='dark'] {
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 20px 20px 10px 20px;
   user-select: none;
 }
@@ -84,35 +115,59 @@ html[data-theme='dark'] {
   padding: 10px 20px 20px 20px;
 }
 
-.counter,
-.status-button {
-  font-size: 2.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.counter {
-  min-width: 124px;
-  color: red;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  padding: 0 5px;
-  background-color: var(--board-bg-secondary-color);
-  border: 5px solid;
-  border-color: var(--border-control-color);
-}
-
-.status-button {
-  padding: 3px 8px 0;
-  border: 7px solid;
-  border-color: var(--border-tile-color);
+.new-game {
+  position: relative;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--special);
+  text-align: center;
+  background-color: inherit;
+  border-radius: 6px;
+  padding: 3px;
+  border: none;
+  outline: none;
+  display: block;
+  z-index: 2;
+  overflow: hidden;
   cursor: pointer;
 }
 
-.controls__steps {
-  color: var(--text-color);
-  font-variant-numeric: tabular-nums;
+.new-game::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    #4fcf70,
+    #fad648,
+    #a767e5,
+    #12bcfe,
+    #44ce7b
+  );
+  background-size: 50% 100%;
+}
+
+.new-game:hover:before {
+  animation: rainbowSlide 0.75s linear infinite;
+}
+
+@keyframes rainbowSlide {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.new-game__title {
+  position: relative;
+  z-index: 2;
+  padding: 10px;
+  border-radius: 3px;
+  display: block;
+  height: 100%;
+  background: var(--board-bg-secondary-color);
 }
 
 .board {
@@ -134,7 +189,7 @@ html[data-theme='dark'] {
 
 .tile[data-status='hidden'],
 .tile[data-status='marked'] {
-  border: 5px solid;
+  border: 4px solid;
   border-color: var(--border-tile-color);
 }
 
@@ -192,14 +247,19 @@ html[data-theme='dark'] {
     font-size: 0.8rem;
   }
 
-  .counter,
-  .status-button {
-    font-size: 2rem;
+  .new-game {
+    font-size: 1.5rem;
   }
 
   .board {
     grid-template-columns: repeat(var(--size), 30px);
     grid-template-rows: repeat(var(--size), 30px);
+  }
+
+  .tile[data-status='hidden'],
+  .tile[data-status='marked'] {
+    border: 3px solid;
+    border-color: var(--border-tile-color);
   }
 }
 
@@ -208,13 +268,8 @@ html[data-theme='dark'] {
     font-size: 1.2rem;
   }
 
-  .counter,
-  .status-button {
-    font-size: 1.8rem;
-  }
-
-  .counter {
-    min-width: 100px;
+  .new-game {
+    font-size: 1.2rem;
   }
 
   .board {
@@ -228,7 +283,7 @@ html[data-theme='dark'] {
     font-size: 0.8rem;
   }
 
-  .controls__row {
+  .controls__settings {
     gap: 5px;
   }
 
@@ -237,20 +292,14 @@ html[data-theme='dark'] {
     height: 20px;
   }
 
-  .counter,
-  .status-button {
+  .new-game {
+    font-size: 0.8rem;
+  }
+
+  .steps__content,
+  .flags-mines__content,
+  .timer__content {
     font-size: 1rem;
-  }
-
-  .counter {
-    min-width: 60px;
-    border: 3px solid;
-    border-color: var(--border-control-color);
-  }
-
-  .status-button {
-    border: 4px solid;
-    border-color: var(--border-tile-color);
   }
 
   .header {
@@ -261,5 +310,11 @@ html[data-theme='dark'] {
     padding: 5px 7px 7px 7px;
     grid-template-columns: repeat(var(--size), 18px);
     grid-template-rows: repeat(var(--size), 18px);
+  }
+
+  .tile[data-status='hidden'],
+  .tile[data-status='marked'] {
+    border: 2px solid;
+    border-color: var(--border-tile-color);
   }
 }
