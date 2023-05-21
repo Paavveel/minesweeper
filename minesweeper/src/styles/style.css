@@ -55,7 +55,8 @@ html[data-theme='dark'] {
   text-align: center;
 }
 
-.controls__select {
+.controls__select,
+.controls__score-button {
   color: var(--text-color);
   border: 2px solid var(--special);
   padding: 2px;
@@ -73,6 +74,14 @@ html[data-theme='dark'] {
   border: none;
   cursor: pointer;
   fill: var(--special);
+}
+
+.controls__score-button {
+  width: 40%;
+  align-self: center;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .steps,
