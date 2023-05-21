@@ -40,3 +40,9 @@ let isGameStarted = !!prevGameState;
 const results =
   JSON.parse(localStorage.getItem(`${lsPrefix}-results`)) ??
   Array(10).fill(Array(4).fill('empty'));
+
+function createElement(elementName, className) {
+  const element = document.createElement(elementName);
+  element.className = className;
+  return element;
+}
