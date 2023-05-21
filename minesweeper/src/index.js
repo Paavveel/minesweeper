@@ -46,3 +46,19 @@ function createElement(elementName, className) {
   element.className = className;
   return element;
 }
+
+function playMusic(src) {
+  if (!isSoundOn) return;
+
+  if (isPlay) {
+    music.pause();
+    isPlay = false;
+  }
+
+  music = new Audio(src);
+  music.volume = 0.5;
+
+  music.play().then(() => {
+    isPlay = true;
+  });
+}
