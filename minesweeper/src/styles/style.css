@@ -99,6 +99,11 @@ html[data-theme='dark'] {
   font-variant-numeric: tabular-nums;
 }
 
+.minesweeper {
+  display: flex;
+  flex-direction: column;
+}
+
 .header,
 .board {
   background-color: var(--board-bg-primary-color);
@@ -171,9 +176,10 @@ html[data-theme='dark'] {
 }
 
 .board {
-  display: inline-grid;
+  display: grid;
   grid-template-columns: repeat(var(--size), 40px);
   grid-template-rows: repeat(var(--size), 40px);
+  justify-content: center;
   gap: 1px;
 }
 
