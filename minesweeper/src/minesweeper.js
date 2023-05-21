@@ -133,6 +133,24 @@ export function revealTile(board, tile) {
   }
 }
 
+export function checkWin(board) {
+  return board.every((row) =>
+    row.every(
+      (tile) =>
+        tile.status === TILE_STATUSES.NUMBER ||
+        (tile.mine &&
+          (tile.status === TILE_STATUSES.HIDDEN ||
+            tile.status === TILE_STATUSES.MARKED))
+    )
+  );
+}
+
+export function checkLose(board) {
+  return board.some((row) =>
+    row.some((tile) => tile.status === TILE_STATUSES.MINE)
+  );
+}
+
 export function getMinePositions(boardSize, numberOfMines, tile) {
   const { x, y } = tile;
   const positions = [];
