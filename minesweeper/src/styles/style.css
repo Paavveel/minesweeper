@@ -249,6 +249,94 @@ html[data-theme='dark'] {
   color: white;
 }
 
+.modal {
+  font-size: 32px;
+  outline: none;
+  pointer-events: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal[open] {
+  pointer-events: inherit;
+  animation: fadeIn 0.1s ease normal;
+}
+
+.modal::backdrop {
+  animation: fadeIn 0.1s ease normal;
+  backdrop-filter: blur(5px);
+}
+
+.modal__button {
+  color: var(--special);
+  font-size: 0.6em;
+  outline: none;
+  background-color: inherit;
+  border: 2px solid var(--special);
+  padding: 7px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal__new-game-button {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.modal__button:hover {
+  color: white;
+  background-color: var(--special);
+}
+
+.modal__title,
+.results__title {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.modal__title {
+  font-size: 1em;
+  color: var(--special);
+}
+
+.results__title {
+  font-size: 0.9em;
+}
+
+.results__content {
+  display: grid;
+  gap: 5px 0;
+}
+
+.results__content-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+  gap: 10px 0;
+}
+
+.results__content-item {
+  font-size: 0.7em;
+}
+
+.results__content-item_header {
+  color: var(--special);
+  font-size: 0.8em;
+}
+
+.results__content-item_empty {
+  color: rgba(170, 170, 170, 0.3);
+  font-size: 0.6em;
+}
+
 @media (max-width: 1150px) {
   .body {
     font-size: 1.5rem;
