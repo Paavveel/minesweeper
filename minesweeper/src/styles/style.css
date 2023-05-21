@@ -99,6 +99,11 @@ html[data-theme='dark'] {
   font-variant-numeric: tabular-nums;
 }
 
+.flags-mines__content {
+  display: flex;
+  gap: 1.4em;
+}
+
 .minesweeper {
   display: flex;
   flex-direction: column;
