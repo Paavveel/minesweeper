@@ -80,6 +80,23 @@ export function createBoard(boardSize, savedBoard) {
   return board;
 }
 
+export function markTile(tile) {
+  if (
+    tile.status !== TILE_STATUSES.HIDDEN &&
+    tile.status !== TILE_STATUSES.MARKED
+  ) {
+    return;
+  }
+
+  if (tile.status === TILE_STATUSES.MARKED) {
+    tile.status = TILE_STATUSES.HIDDEN;
+    tile.element.textContent = '';
+  } else {
+    tile.status = TILE_STATUSES.MARKED;
+    tile.element.textContent = '🚩';
+  }
+}
+
 export function getMinePositions(boardSize, numberOfMines, tile) {
   const { x, y } = tile;
   const positions = [];
