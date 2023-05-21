@@ -321,7 +321,7 @@ html[data-theme='dark'] {
 
 .results__content {
   display: grid;
-  gap: 5px 0;
+  gap: 10px;
 }
 
 .results__content-row {
@@ -329,7 +329,7 @@ html[data-theme='dark'] {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-items: center;
   align-items: center;
-  gap: 10px 0;
+  gap: 10px;
 }
 
 .results__content-item {
