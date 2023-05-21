@@ -36,6 +36,14 @@ function setTileNumberClass(number, element) {
   }
 }
 
+export function positionMatch(a, b) {
+  return a.x === b.x && a.y === b.y;
+}
+
+function randomNumber(size) {
+  return Math.floor(Math.random() * size);
+}
+
 export function createBoard(boardSize, savedBoard) {
   const board = [];
   for (let x = 0; x < boardSize; x += 1) {
@@ -70,4 +78,24 @@ export function createBoard(boardSize, savedBoard) {
     board.push(row);
   }
   return board;
+}
+
+export function getMinePositions(boardSize, numberOfMines, tile) {
+  const { x, y } = tile;
+  const positions = [];
+
+  while (positions.length < numberOfMines) {
+    const position = {
+      x: randomNumber(boardSize),
+      y: randomNumber(boardSize),
+    };
+
+    if (
+      !positions.some(positionMatch.bind(null, position)) &&
+      !positionMatch.call(null, position, { x, y })
+    ) {
+      positions.push(position);
+    }
+  }
+  return positions;
 }
