@@ -376,14 +376,14 @@ function checkGameEnd(e) {
   const lose = checkLose(board);
 
   if (!win && !lose) {
-    playMusic('../minesweeper/src/assets/sounds/click.wav');
+    playMusic('./src/assets/sounds/click.wav');
   }
 
   if (win) {
     results.unshift([boardSize, numberOfMines, steps, timer]);
     results.length = 10;
     localStorage.setItem(`${lsPrefix}-results`, JSON.stringify(results));
-    playMusic('../minesweeper/src/assets/sounds/win.wav');
+    playMusic('./src/assets/sounds/win.wav');
     showModal('win');
   }
 
@@ -395,7 +395,7 @@ function checkGameEnd(e) {
         if (tile.mine) revealTile(board, tile);
       });
     });
-    playMusic('../minesweeper/src/assets/sounds/lose.wav');
+    playMusic('./src/assets/sounds/lose.wav');
     showModal('lose');
   }
 
@@ -460,7 +460,7 @@ function renderBoard() {
           boardTile.status === TILE_STATUSES.HIDDEN ||
           boardTile.status === TILE_STATUSES.MARKED
         ) {
-          playMusic('../minesweeper/src/assets/sounds/flag.wav');
+          playMusic('./src/assets/sounds/flag.wav');
         }
 
         handleMinesAndFlags();
