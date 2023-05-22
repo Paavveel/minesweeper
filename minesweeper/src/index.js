@@ -177,6 +177,7 @@ function renderDom() {
 
   const scoreButtonElement = createElement('button', 'controls__score-button');
   scoreButtonElement.textContent = 'Score';
+  scoreButtonElement.addEventListener('click', showModal);
 
   controlsSettingsElement.append(
     selectSizeElement,
@@ -301,6 +302,94 @@ function handleMinesAndFlags() {
   }
 }
 
+function showModal(type) {
+  const modalCloseButton = createElement(
+    'button',
+    'modal__button modal__close-button'
+  );
+  modalCloseButton.textContent = 'Close';
+  const modalNewGame = createElement(
+    'button',
+    'modal__button modal__new-game-button'
+  );
+  modalNewGame.textContent = 'New Game';
+
+  function handleCloseModal() {
+    modalElement.close();
+    modalElement.innerHTML = '';
+  }
+
+  function handleNewGame() {
+    startNewGame();
+    handleCloseModal();
+  }
+
+  modalCloseButton.addEventListener('click', handleCloseModal);
+  modalNewGame.addEventListener('click', handleNewGame);
+
+  const modalTitle = createElement('h2', 'modal__title');
+  if (type === 'win') {
+    modalTitle.textContent = `Hooray! You found all mines in ${timer} seconds and ${steps} moves!`;
+  } else if (type === 'lose') {
+    modalTitle.textContent = `Game over. Try again.`;
+  }
+
+  const resultsElement = createElement('div', 'results');
+  const resultsTitleElement = createElement('h3', 'results__title');
+  resultsTitleElement.textContent = 'Latest 10 results:';
+
+  const resultsHeaders = ['Size', 'Mines', 'Steps', 'Time'];
+
+  const resultsContentElement = createElement('div', 'results__content');
+  const contentHeaderRowElement = createElement('div', 'results__content-row');
+
+  for (let i = 0; i < resultsHeaders.length; i += 1) {
+    const header = resultsHeaders[i];
+    const contentElement = createElement(
+      'div',
+      'results__content-item results__content-item_header'
+    );
+    contentElement.textContent = header;
+    contentHeaderRowElement.append(contentElement);
+    resultsContentElement.append(contentHeaderRowElement);
+  }
+  for (let i = 0; i < results.length; i += 1) {
+    const result = results[i];
+
+    const contentRowElement = createElement('div', 'results__content-row');
+    for (let j = 0; j < result.length; j += 1) {
+      const resultItem = result[j];
+      const contentElement = createElement('div', 'results__content-item');
+
+      if (resultItem === 'empty') {
+        contentElement.classList.add('results__content-item_empty');
+        contentElement.textContent = resultItem;
+        contentRowElement.append(contentElement);
+        resultsContentElement.append(contentRowElement);
+
+        break;
+      }
+      if (j === 0) {
+        contentElement.textContent = `${resultItem}x${resultItem}`;
+      } else {
+        contentElement.textContent = resultItem;
+      }
+      contentRowElement.append(contentElement);
+    }
+    resultsContentElement.append(contentRowElement);
+  }
+
+  resultsElement.append(resultsTitleElement, resultsContentElement);
+
+  modalElement.append(
+    modalNewGame,
+    modalCloseButton,
+    modalTitle,
+    resultsElement
+  );
+  modalElement.showModal();
+}
+
 function checkGameEnd(e) {
   const win = checkWin(board);
   const lose = checkLose(board);
@@ -312,7 +401,9 @@ function checkGameEnd(e) {
   if (win) {
     results.unshift([boardSize, numberOfMines, steps, timer]);
     results.length = 10;
+    localStorage.setItem(`${lsPrefix}-results`, JSON.stringify(results));
     playMusic('../minesweeper/src/assets/sounds/win.wav');
+    showModal('win');
   }
 
   if (lose) {
@@ -324,6 +415,7 @@ function checkGameEnd(e) {
       });
     });
     playMusic('../minesweeper/src/assets/sounds/lose.wav');
+    showModal('lose');
   }
 
   if (win || lose) {
