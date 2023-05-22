@@ -276,6 +276,10 @@ function startTimer() {
   }, 1000);
 }
 
+function stopProp(e) {
+  e.stopImmediatePropagation();
+}
+
 function handleMinesAndFlags() {
   const markedTilesCount = board.reduce(
     (count, row) =>
@@ -290,6 +294,43 @@ function handleMinesAndFlags() {
     minesLeftElement.textContent = minesRemaining;
   } else {
     minesLeftElement.textContent = 0;
+  }
+}
+
+function checkGameEnd(e) {
+  const win = checkWin(board);
+  const lose = checkLose(board);
+
+  if (!win && !lose) {
+    playMusic('../minesweeper/src/assets/sounds/click.wav');
+  }
+
+  if (win) {
+    results.unshift([boardSize, numberOfMines, steps, timer]);
+    results.length = 10;
+    playMusic('../minesweeper/src/assets/sounds/win.wav');
+  }
+
+  if (lose) {
+    e.target.classList.add('tile__lose');
+    board.forEach((row) => {
+      row.forEach((tile) => {
+        if (tile.status === TILE_STATUSES.MARKED) markTile(tile);
+        if (tile.mine) revealTile(board, tile);
+      });
+    });
+    playMusic('../minesweeper/src/assets/sounds/lose.wav');
+  }
+
+  if (win || lose) {
+    boardElement.addEventListener('click', stopProp, { capture: true });
+    boardElement.addEventListener('contextmenu', stopProp, { capture: true });
+    boardElement.removeEventListener('click', startTimer, { once: true });
+
+    clearInterval(timerId);
+    isGameStarted = false;
+    timer = 0;
+    steps = 0;
   }
 }
 
@@ -332,6 +373,7 @@ function renderBoard() {
         }
         revealTile(board, boardTile);
         stepsElement.textContent = steps;
+        checkGameEnd(e);
       });
       boardTile.element.addEventListener('contextmenu', (e) => {
         e.preventDefault();
