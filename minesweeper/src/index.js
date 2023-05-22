@@ -261,3 +261,17 @@ function renderDom() {
 }
 
 renderDom();
+
+const stepsElement = document.querySelector('.steps__content');
+const minesLeftElement = document.querySelector('.flags-mines__content-mines');
+const flagsLeftElement = document.querySelector('.flags-mines__content-flags');
+const timerElement = document.querySelector('.timer__content');
+const boardElement = document.querySelector('.board');
+const modalElement = document.querySelector('.modal');
+
+function startTimer() {
+  timerId = setInterval(() => {
+    timer += 1;
+    timerElement.textContent = timer;
+  }, 1000);
+}
