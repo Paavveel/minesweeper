@@ -276,6 +276,23 @@ function startTimer() {
   }, 1000);
 }
 
+function handleMinesAndFlags() {
+  const markedTilesCount = board.reduce(
+    (count, row) =>
+      count + row.filter((tile) => tile.status === TILE_STATUSES.MARKED).length,
+    0
+  );
+  flagsLeftElement.textContent = markedTilesCount;
+
+  const minesRemaining = numberOfMines - markedTilesCount;
+
+  if (minesRemaining > 0) {
+    minesLeftElement.textContent = minesRemaining;
+  } else {
+    minesLeftElement.textContent = 0;
+  }
+}
+
 function renderBoard() {
   boardElement.style.setProperty('--size', boardSize);
 
@@ -285,6 +302,8 @@ function renderBoard() {
   } else {
     board = createBoard(boardSize);
   }
+
+  handleMinesAndFlags();
 
   board.forEach((boardRow) => {
     boardRow.forEach((boardTile) => {
@@ -324,6 +343,8 @@ function renderBoard() {
         ) {
           playMusic('../minesweeper/src/assets/sounds/flag.wav');
         }
+
+        handleMinesAndFlags();
       });
     });
   });
