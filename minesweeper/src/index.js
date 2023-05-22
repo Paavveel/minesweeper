@@ -62,3 +62,202 @@ function playMusic(src) {
     isPlay = true;
   });
 }
+
+function renderDom() {
+  function handleSize() {
+    boardSize = Number(this.value);
+
+    const selectSize = document.querySelector('select[name="mines"]');
+    const options = selectSize.childNodes;
+    for (let i = 0; i < options.length; i += 1) {
+      const option = options[i];
+      if (numberOfMines === Number(option.value)) {
+        option.selected = true;
+      }
+    }
+  }
+
+  function handleMines() {
+    numberOfMines = Number(this.value);
+  }
+
+  function renderSoundButton(button) {
+    const element = button;
+
+    if (isSoundOn) {
+      element.innerHTML = `<svg width="25" height="25" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <path d="m403.966 426.944-33.285-26.629c74.193-81.076 74.193-205.016-.001-286.091l33.285-26.628c86.612 96.713 86.61 242.636.001 339.348ZM319.58 155.105l-33.325 26.66c39.796 42.567 39.795 108.443.002 151.01l33.324 26.66c52.204-58.222 52.204-146.11-.001-204.33Zm-85.163-69.772-110.855 87.23H42.667v170.666h81.02l110.73 85.459V85.333Z" fill-rule="evenodd"/>
+</svg>`;
+    } else {
+      element.innerHTML = `<svg width="25" height="25" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <path d="m89.752 59.582 251.583 251.583 5.433 5.432 49.472 49.474v-.001l30.862 30.86h-.001l25.317 25.318-30.17 30.17-187.832-187.833v164.103l-110.729-85.459h-81.02V172.563h80.895l10.538-8.293-74.518-74.518 30.17-30.17Zm314.213 28.014c67.74 75.64 82.499 181.38 44.28 270.137l-32.95-32.95c23.87-71.004 8.998-151.973-44.615-210.559l33.285-26.628Zm-84.385 67.51c28.626 31.924 41.555 72.769 38.788 112.752l-49.237-49.236c-4.823-12.915-12.148-25.121-21.976-35.884l-.9-.974 33.325-26.659Zm-85.163-69.773-.001 58.574-32.78-32.78 32.78-25.794Z" fill-rule="evenodd"/>
+</svg>`;
+    }
+  }
+
+  function handleMute() {
+    isSoundOn = !isSoundOn;
+    renderSoundButton(this);
+    localStorage.setItem(`${lsPrefix}-sound`, isSoundOn);
+  }
+
+  function handleTheme() {
+    if (this.value === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+    localStorage.setItem(`${lsPrefix}-theme`, this.value);
+  }
+
+  document.body.classList.add('body');
+
+  const containerElement = createElement('div', 'container');
+
+  const controlsElement = createElement('div', 'controls');
+
+  const controlsSettingsElement = createElement('div', 'controls__settings');
+
+  const selectSizeElement = createElement('select', 'controls__select');
+  selectSizeElement.setAttribute('name', 'size');
+  selectSizeElement.addEventListener('change', handleSize);
+
+  for (let i = 0; i < BOARD_SIZES.length; i += 1) {
+    const size = BOARD_SIZES[i];
+    const option = createElement('option', '');
+    option.value = size;
+    option.textContent = `${size}x${size}`;
+
+    if (boardSize === size) {
+      option.selected = true;
+    }
+
+    selectSizeElement.append(option);
+  }
+
+  const selectMinesElement = createElement('select', 'controls__select');
+  selectMinesElement.setAttribute('name', 'mines');
+  selectMinesElement.addEventListener('change', handleMines);
+
+  for (let i = MINES_MIN; i <= MINES_MAX; i += 1) {
+    const option = createElement('option', '');
+    option.value = i;
+    option.textContent = i;
+
+    if (numberOfMines === i) {
+      option.selected = true;
+    }
+
+    selectMinesElement.append(option);
+  }
+
+  const selectThemeElement = createElement('select', 'controls__select');
+  selectThemeElement.setAttribute('name', 'theme');
+  selectThemeElement.addEventListener('change', handleTheme);
+
+  for (let i = 0; i < THEMES.length; i += 1) {
+    const theme = THEMES[i];
+    const option = createElement('option', '');
+    option.value = theme;
+    option.textContent = theme;
+
+    if (currentTheme === theme) {
+      option.selected = true;
+    }
+
+    selectThemeElement.append(option);
+  }
+
+  const soundButtonElement = createElement('button', 'controls__button');
+  renderSoundButton(soundButtonElement);
+  soundButtonElement.addEventListener('click', handleMute);
+
+  const scoreButtonElement = createElement('button', 'controls__score-button');
+  scoreButtonElement.textContent = 'Score';
+
+  controlsSettingsElement.append(
+    selectSizeElement,
+    selectMinesElement,
+    soundButtonElement,
+    selectThemeElement
+  );
+
+  const controlsStatElement = createElement('div', 'controls__stat');
+
+  const stepsContainerDivElement = createElement('div', 'steps');
+  const stepsTitleDivElement = createElement('div', 'steps__title');
+  stepsTitleDivElement.textContent = 'Clicks';
+  const stepsContentDivElement = createElement('div', 'steps__content');
+  stepsContentDivElement.textContent = steps;
+  stepsContainerDivElement.append(stepsTitleDivElement, stepsContentDivElement);
+
+  const flagsAndMinesContainerDivElement = createElement('div', 'flags-mines');
+  const flagsAndMinesTitleDivElement = createElement(
+    'div',
+    'flags-mines__title'
+  );
+  flagsAndMinesTitleDivElement.textContent = 'Flags | Mines';
+  const flagsAndMinesContentDivElement = createElement(
+    'div',
+    'flags-mines__content'
+  );
+  const flagsContentDivElement = createElement(
+    'div',
+    'flags-mines__content-flags'
+  );
+  const minesContentDivElement = createElement(
+    'div',
+    'flags-mines__content-mines'
+  );
+  flagsAndMinesContentDivElement.append(
+    flagsContentDivElement,
+    minesContentDivElement
+  );
+
+  flagsAndMinesContainerDivElement.append(
+    flagsAndMinesTitleDivElement,
+    flagsAndMinesContentDivElement
+  );
+
+  const timerContainerDivElement = createElement('div', 'timer');
+  const timerTitleDivElement = createElement('div', 'timer__title');
+  timerTitleDivElement.textContent = 'Time';
+  const timerContentDivElement = createElement('div', 'timer__content');
+  timerContentDivElement.textContent = timer;
+  timerContainerDivElement.append(timerTitleDivElement, timerContentDivElement);
+
+  controlsStatElement.append(
+    stepsContainerDivElement,
+    flagsAndMinesContainerDivElement,
+    timerContainerDivElement
+  );
+
+  controlsElement.append(
+    controlsSettingsElement,
+    scoreButtonElement,
+    controlsStatElement
+  );
+
+  const minesweeperElement = createElement('div', 'minesweeper');
+
+  const headerElement = createElement('div', 'header');
+
+  const newGameButtonElement = createElement('button', 'new-game');
+  const newGameSpanElement = createElement('span', 'new-game__title');
+  newGameSpanElement.textContent = 'New Game';
+  newGameButtonElement.append(newGameSpanElement);
+
+  headerElement.append(newGameButtonElement);
+
+  const boardDivElement = createElement('div', 'board');
+
+  minesweeperElement.append(headerElement, boardDivElement);
+
+  const modal = createElement('dialog', 'modal');
+
+  containerElement.append(controlsElement, minesweeperElement, modal);
+
+  document.body.insertAdjacentElement('afterbegin', containerElement);
+}
+
+renderDom();
