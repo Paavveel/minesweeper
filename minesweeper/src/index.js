@@ -281,6 +281,7 @@ function renderBoard() {
 
   if (prevGameState) {
     board = createBoard(boardSize, prevGameState);
+    boardElement.addEventListener('click', startTimer, { once: true });
   } else {
     board = createBoard(boardSize);
   }
@@ -304,6 +305,7 @@ function renderBoard() {
             });
           });
           isGameStarted = true;
+          startTimer();
         }
 
         if (boardTile.status === TILE_STATUSES.HIDDEN) {
