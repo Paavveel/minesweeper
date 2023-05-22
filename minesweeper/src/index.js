@@ -275,3 +275,44 @@ function startTimer() {
     timerElement.textContent = timer;
   }, 1000);
 }
+
+function renderBoard() {
+  boardElement.style.setProperty('--size', boardSize);
+
+  if (prevGameState) {
+    board = createBoard(boardSize, prevGameState);
+  } else {
+    board = createBoard(boardSize);
+  }
+
+  board.forEach((boardRow) => {
+    boardRow.forEach((boardTile) => {
+      boardElement.append(boardTile.element);
+
+      boardTile.element.addEventListener('click', (e) => {
+        if (!isGameStarted) {
+          const minePositions = getMinePositions(
+            boardSize,
+            numberOfMines,
+            boardTile
+          );
+          board.forEach((row) => {
+            row.forEach((tile) => {
+              tile.mine = minePositions.some(
+                positionMatch.bind(null, { x: tile.x, y: tile.y })
+              );
+            });
+          });
+          isGameStarted = true;
+        }
+
+        if (boardTile.status === TILE_STATUSES.HIDDEN) {
+          steps += 1;
+        }
+        revealTile(board, boardTile);
+        stepsElement.textContent = steps;
+      });
+    });
+  });
+}
+renderBoard();
