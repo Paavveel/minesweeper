@@ -261,6 +261,7 @@ html[data-theme='dark'] {
 .modal {
   font-size: 32px;
   outline: none;
+  border: none;
   pointer-events: none;
 }
 
