@@ -190,7 +190,7 @@ function renderDom() {
 
   const stepsContainerDivElement = createElement('div', 'steps');
   const stepsTitleDivElement = createElement('div', 'steps__title');
-  stepsTitleDivElement.textContent = 'Clicks';
+  stepsTitleDivElement.textContent = 'Steps';
   const stepsContentDivElement = createElement('div', 'steps__content');
   stepsContentDivElement.textContent = steps;
   stepsContainerDivElement.append(stepsTitleDivElement, stepsContentDivElement);
