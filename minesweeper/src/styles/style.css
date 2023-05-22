@@ -226,6 +226,10 @@ html[data-theme='dark'] {
   background-color: red;
 }
 
+.tile.tile__mine-marked {
+  background-color: green;
+}
+
 .tile__one {
   color: blue;
 }
