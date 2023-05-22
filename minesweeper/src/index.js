@@ -200,22 +200,10 @@ function renderDom() {
     'div',
     'flags-mines__title'
   );
-  flagsAndMinesTitleDivElement.textContent = 'Flags | Mines';
+  flagsAndMinesTitleDivElement.textContent = 'Mines';
   const flagsAndMinesContentDivElement = createElement(
     'div',
     'flags-mines__content'
-  );
-  const flagsContentDivElement = createElement(
-    'div',
-    'flags-mines__content-flags'
-  );
-  const minesContentDivElement = createElement(
-    'div',
-    'flags-mines__content-mines'
-  );
-  flagsAndMinesContentDivElement.append(
-    flagsContentDivElement,
-    minesContentDivElement
   );
 
   flagsAndMinesContainerDivElement.append(
@@ -268,8 +256,7 @@ function renderDom() {
 renderDom();
 
 const stepsElement = document.querySelector('.steps__content');
-const minesLeftElement = document.querySelector('.flags-mines__content-mines');
-const flagsLeftElement = document.querySelector('.flags-mines__content-flags');
+const minesLeftElement = document.querySelector('.flags-mines__content');
 const timerElement = document.querySelector('.timer__content');
 const boardElement = document.querySelector('.board');
 const modalElement = document.querySelector('.modal');
@@ -291,15 +278,9 @@ function handleMinesAndFlags() {
       count + row.filter((tile) => tile.status === TILE_STATUSES.MARKED).length,
     0
   );
-  flagsLeftElement.textContent = markedTilesCount;
 
   const minesRemaining = numberOfMines - markedTilesCount;
-
-  if (minesRemaining > 0) {
-    minesLeftElement.textContent = minesRemaining;
-  } else {
-    minesLeftElement.textContent = 0;
-  }
+  minesLeftElement.textContent = minesRemaining;
 }
 
 function showModal(type) {
