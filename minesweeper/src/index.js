@@ -489,3 +489,28 @@ function startNewGame() {
 }
 
 renderBoard();
+
+function saveState() {
+  if (isGameStarted) {
+    const boardToSave = board.map((arr) =>
+      arr.map((tile) => {
+        const newTile = {
+          status: tile.status,
+          mine: tile.mine,
+          content: tile.element.innerText,
+        };
+        return newTile;
+      })
+    );
+    localStorage.setItem(`${lsPrefix}-save`, JSON.stringify(boardToSave));
+  } else {
+    localStorage.setItem(`${lsPrefix}-save`, JSON.stringify(null));
+  }
+
+  localStorage.setItem(`${lsPrefix}-size`, boardSize);
+  localStorage.setItem(`${lsPrefix}-mines`, numberOfMines);
+  localStorage.setItem(`${lsPrefix}-timer`, timer);
+  localStorage.setItem(`${lsPrefix}-steps`, steps);
+}
+
+window.addEventListener('beforeunload', saveState);
