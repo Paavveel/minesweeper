@@ -75,10 +75,13 @@ function renderDom() {
         option.selected = true;
       }
     }
+
+    startNewGame();
   }
 
   function handleMines() {
     numberOfMines = Number(this.value);
+    startNewGame();
   }
 
   function renderSoundButton(button) {
@@ -243,6 +246,7 @@ function renderDom() {
   const headerElement = createElement('div', 'header');
 
   const newGameButtonElement = createElement('button', 'new-game');
+  newGameButtonElement.addEventListener('click', startNewGame);
   const newGameSpanElement = createElement('span', 'new-game__title');
   newGameSpanElement.textContent = 'New Game';
   newGameButtonElement.append(newGameSpanElement);
@@ -390,6 +394,25 @@ function renderBoard() {
       });
     });
   });
+}
+
+function startNewGame() {
+  isGameStarted = false;
+  prevGameState = null;
+  timer = 0;
+  steps = 0;
+  clearInterval(timerId);
+
+  timerElement.textContent = timer;
+  stepsElement.textContent = steps;
+
+  boardElement.removeEventListener('click', stopProp, { capture: true });
+  boardElement.removeEventListener('contextmenu', stopProp, {
+    capture: true,
+  });
+
+  boardElement.innerHTML = '';
+  renderBoard();
 }
 
 renderBoard();
