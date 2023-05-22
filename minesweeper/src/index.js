@@ -312,7 +312,19 @@ function renderBoard() {
         revealTile(board, boardTile);
         stepsElement.textContent = steps;
       });
+      boardTile.element.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        markTile(boardTile);
+
+        if (
+          boardTile.status === TILE_STATUSES.HIDDEN ||
+          boardTile.status === TILE_STATUSES.MARKED
+        ) {
+          playMusic('../minesweeper/src/assets/sounds/flag.wav');
+        }
+      });
     });
   });
 }
+
 renderBoard();
