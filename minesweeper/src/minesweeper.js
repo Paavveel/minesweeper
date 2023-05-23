@@ -101,13 +101,6 @@ export function markTile(tile) {
     return;
   }
 
-  if (tile.mine && tile.status === TILE_STATUSES.MARKED) {
-    tile.status = TILE_STATUSES.MINE;
-    tile.element.textContent = '🚩';
-    tile.element.classList.add('tile__mine-marked');
-    return;
-  }
-
   if (tile.status === TILE_STATUSES.MARKED) {
     tile.status = TILE_STATUSES.HIDDEN;
     tile.element.textContent = '';
