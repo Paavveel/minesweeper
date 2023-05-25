@@ -445,6 +445,10 @@ function renderBoard() {
           startTimer();
         }
 
+        if (boardTile.status === TILE_STATUSES.NUMBER) {
+          return;
+        }
+
         if (boardTile.status === TILE_STATUSES.HIDDEN) {
           steps += 1;
         }
