@@ -445,7 +445,10 @@ function renderBoard() {
           startTimer();
         }
 
-        if (boardTile.status === TILE_STATUSES.NUMBER) {
+        if (
+          boardTile.status === TILE_STATUSES.NUMBER ||
+          boardTile.status === TILE_STATUSES.MARKED
+        ) {
           return;
         }
 
